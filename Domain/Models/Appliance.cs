@@ -9,7 +9,7 @@ using HomeApplianceRepairCenter.Utilities;
 namespace HomeApplianceRepairCenter.Domain.Models
 {
     /// <summary>
-    /// Abstract base class for all appliances. Implements the common interface and contains
+    /// Abstractjjjjjj base class for all appliances. Implements the common interface and contains
     /// shared encapsulated state while derived classes override repair-cost calculation.
     /// </summary>
     public abstract class Appliance : IMaintainable
@@ -34,8 +34,8 @@ namespace HomeApplianceRepairCenter.Domain.Models
         {
             string normalizedSerial = (serialNumber ?? string.Empty).Trim().ToUpperInvariant();
             if (!InputValidator.IsValidSerialNumber(normalizedSerial))
-                throw new ArgumentException("Serial number must contain 5-20 characters using only A-Z, 0-9, or hyphen.", "serialNumber");
-            if (!InputValidator.IsValidReceivedDate(receivedDate))
+                throw new ArgumentException("Serial number must contain 5-50 characters using only A-Z, 0-9, or hyphen.", "serialNumber");
+            if (!InputValidator.IsValidReceivedDate(receivedDate))50
                 throw new ArgumentException("Received date cannot be in the future and must be year 2000 or later.", "receivedDate");
             if (!InputValidator.IsValidExpectedDeliveryDate(receivedDate, expectedDeliveryDate))
                 throw new ArgumentException("Expected delivery date cannot be earlier than the received date.", "expectedDeliveryDate");

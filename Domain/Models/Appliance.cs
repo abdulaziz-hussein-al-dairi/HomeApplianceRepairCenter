@@ -152,9 +152,11 @@ namespace HomeApplianceRepairCenter.Domain.Models
         {
             string safeNote = string.IsNullOrWhiteSpace(note) ? "No note provided." : note.Trim();
             if (newStatus == Status) throw new InvalidOperationException("The device is already in the selected status.");
-            IReadOnlyList<MaintenanceStatus> allowedStatuses = GetAllowedNextStatuses();
-            if (!allowedStatuses.Contains(newStatus))
-                throw new InvalidOperationException(string.Format("Transition from {0} to {1} is not allowed.", Status, newStatus));
+            if (!CanChangeStatusTo(newStatus))
+             {
+                       throw new InvalidOperationException( string.Format("Transition from {0} to {1} is not allowed.", Status, newStatus));
+                      
+             }
 
             MaintenanceStatus oldStatus = _status;
             bool wasUnderMaintenance = IsUnderMaintenance(oldStatus);
@@ -230,7 +232,9 @@ namespace HomeApplianceRepairCenter.Domain.Models
             DeviceStatusChangedHandler handler = RepairCompleted;
             if (handler != null) handler(this, e);
         }
-
+        /// <summary>
+        /// Checks whether the appliance can move to the selected maintenance status.
+        /// </summary>
         private static bool IsUnderMaintenance(MaintenanceStatus status)
         {
             return status == MaintenanceStatus.Received || status == MaintenanceStatus.Diagnosing
